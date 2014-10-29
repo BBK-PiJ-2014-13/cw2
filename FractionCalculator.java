@@ -1,6 +1,4 @@
 public class FractionCalculator {
-
-	FractionCalculator calculator = new FractionCalculator();
 	InputElement firstElement = new InputElement();
 	InputElement currentElement = firstElement;
 	Fraction currentFraction = null;
@@ -46,10 +44,10 @@ public class FractionCalculator {
 	public void performOperation() {
 		currentElement = firstElement;
 		while (keepGoing) {
-			if (currentElement.isFraction) { // If current element is fraction
+			if (currentElement.isFraction) { // If current element is a fraction
 				if (currentFraction != null) { // If we have current fraction
 					if (operation != null) { // If we have an operation
-						// Perform the operation
+						currentFraction = performFractionOperation(stringToFraction(currentElement.element));// Perform the operation
 					} else { // If we don't have an operation
 						// TODO Print error and restart
 					}
@@ -60,15 +58,16 @@ public class FractionCalculator {
 
 				// Analyze the operation; either perform the operation on current fraction or remember the operation
 				if (isStandaloneOperation(currentElement.element)) { // If it's a standalone operation
-					currentFraction = performStandaloneOperation(currentElement.element); // Perform the operation on
+					currentFraction = evaluate(currentFraction, currentElement.element); // Perform the operation on
 																							// current fraction
 				} else { // If it's an operation that is performed on two fractions
-					operation = currentElement.element;
+					operation = currentElement.element; // Remember the operation
 				}
 			}
 			if (currentElement.nextElement != null) { // If there are more elements in the list
 				currentElement = currentElement.nextElement; // Cycle to next element
 			} else {
+				System.out.println(currentFraction.toString());
 				break; // End the program
 			}
 
@@ -86,9 +85,23 @@ public class FractionCalculator {
 		return true;
 	}
 
-	public Fraction performStandaloneOperation(String s) {
+	public Fraction performFractionOperation(Fraction f) {
+		switch (operation) {
+		case "+":
+			return currentFraction.add(f);
+		case "-":
+			return currentFraction.subtract(f);
+		case "*":
+			return currentFraction.multiply(f);
+		case "/":
+			return currentFraction.divide(f);
+		}
+		return null;
+	}
+
+	public Fraction evaluate(Fraction fraction, String inputString) {
 		Fraction performedFraction = new Fraction(0, 1);
-		switch (s) {
+		switch (inputString) {
 		case "a":
 		case "A":
 		case "abs":
@@ -112,9 +125,6 @@ public class FractionCalculator {
 			break;
 		}
 		return performedFraction;
-	}
-
-	public void evaluate(Fraction fraction, String inputString) {
 
 	}
 
