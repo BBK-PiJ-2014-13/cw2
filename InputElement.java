@@ -1,11 +1,13 @@
 
 public class InputElement {
-	String element;
-	InputElement nextElement;
+	public String element;
+	public InputElement nextElement;
+	public boolean isFraction;
 	
 	public InputElement() {
 		element = "";
 		nextElement = null;
+		isFraction = true; // Fraction or operation
 	}
 	
 	public void add() {
